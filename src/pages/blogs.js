@@ -1,21 +1,24 @@
+import '../style/css/style.css'
+
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { graphql } from 'gatsby';
-import '../style/css/style.css';
-import Layout from '../components/layout';
+import React from 'react'
+
+import { graphql } from 'gatsby'
+
+import Layout from '../components/layout'
 
 function dateSetter(params) {
-  const date = new Date(params);
-  const yy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
-  const mm = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
-  const dd = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
-  return `${mm}-${dd}-${yy}`;
+  const date = new Date(params)
+  const yy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
+  const mm = new Intl.DateTimeFormat('en', { month: 'short' }).format(date)
+  const dd = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+  return `${mm}-${dd}-${yy}`
 }
 
 const SecondPage = (props) => {
-  const { data } = props;
+  const { data } = props
   return (
     <Layout
       header={data.allContentstackHeader.nodes}
@@ -44,13 +47,12 @@ const SecondPage = (props) => {
                   <span className="timeStamp">
                     {dateSetter(list.created_at)}
                   </span>
-                  ,
-                  <span className="post-author">{list.author[0].title}</span>
+                  ,<span className="post-author">{list.author[0].title}</span>
                 </div>
                 <p className="blogPost">
                   {`${list.blog_body[0].rich_text_editor.rich_text.slice(
                     3,
-                    150,
+                    150
                   )}...`}
                 </p>
                 <a className="postLink" href={`${list.url}`}>
@@ -62,10 +64,10 @@ const SecondPage = (props) => {
         </div>
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default SecondPage;
+export default SecondPage
 
 export const pageQuery = graphql`
   {
@@ -116,11 +118,11 @@ export const pageQuery = graphql`
             rich_text
           }
         }
-        created_at(formatString: "")
+        created_at
         author {
           title
         }
       }
     }
   }
-`;
+`

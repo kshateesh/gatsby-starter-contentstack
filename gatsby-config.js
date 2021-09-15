@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
-});
+})
 
 module.exports = {
   siteMetadata: {
@@ -9,18 +9,7 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-react-helmet',
-    {
-      resolve: 'gatsby-plugin-eslint',
-      options: {
-        test: /\.js$|\.jsx$/,
-        exclude: /(node_modules|.cache|public)/,
-        stages: ['develop'],
-        options: {
-          emitWarning: true,
-          failOnError: false,
-        },
-      },
-    },
+
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -58,4 +47,4 @@ module.exports = {
       },
     },
   ],
-};
+}

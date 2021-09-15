@@ -2,60 +2,86 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-danger */
-import React from 'react';
-import { graphql } from 'gatsby';
+import React from 'react'
 
-import Layout from '../components/layout';
+import { graphql } from 'gatsby'
 
-const IndexPage = ({ data }) => (
-  <Layout
-    header={data.allContentstackHeader.nodes}
-    footer={data.allContentstackFooter.nodes}
-    seo={data.contentstackHome.seo}
-  >
-    <div
-      style={{
-        margin: '0 auto',
-        maxWidth: '960px',
-        padding: '0px 1.0875rem 1.45rem',
-        paddingTop: 0,
-      }}
+import Layout from '../components/layout'
+
+const IndexPage = ({ data }) => {
+  console.log('data', data)
+  return (
+    <Layout
+      header={data.allContentstackHeader.nodes}
+      footer={data.allContentstackFooter.nodes}
+      seo={data.contentstackHome.seo}
     >
-      <div className="container">
-        <section>
-          <div>
-            <figure>
-              <img
-                src={data.contentstackHome.banner.url}
-                alt={data.contentstackHome.banner.filename}
-                width="100%"
-              />
-            </figure>
-          </div>
-        </section>
-        <section>
-          <div className="article-list">
-            {data.contentstackHome.group.map((col, idx) => (
-              <div key={idx} className="article">
-                <div>
-                  <div className="title">
-                    <h2>{col.title}</h2>
+      <div
+        style={{
+          margin: '0 auto',
+          maxWidth: '960px',
+          padding: '0px 1.0875rem 1.45rem',
+          paddingTop: 0,
+        }}
+      >
+        <div className="container">
+          <section>
+            <div>
+              <figure>
+                <img
+                  src={data.contentstackHome.banner.url}
+                  alt={data.contentstackHome.banner.filename}
+                  width="100%"
+                />
+              </figure>
+            </div>
+          </section>
+          <section>
+            <div className="article-list">
+              {data.contentstackHome.group.map((col, idx) => (
+                <div key={idx} className="article">
+                  <div>
+                    <div className="title">
+                      <h2>{col.title}</h2>
+                    </div>
+                    <div
+                      className="description"
+                      dangerouslySetInnerHTML={{ __html: col.description }}
+                    />
                   </div>
-                  <div
-                    className="description"
-                    dangerouslySetInnerHTML={{ __html: col.description }}
-                  />
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
-  </Layout>
-);
+    </Layout>
+  )
+}
 export const pageQuery = graphql`
   {
+    allContentstackBlogPosts {
+      nodes {
+        title
+        url
+        hero_banner {
+          banner_title
+          banner_image {
+            url
+            filename
+          }
+        }
+        blog_body {
+          rich_text_editor {
+            rich_text
+          }
+        }
+        created_at
+        author {
+          title
+        }
+      }
+    }
     contentstackHome {
       title
       url
@@ -105,6 +131,6 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`
 
-export default IndexPage;
+export default IndexPage

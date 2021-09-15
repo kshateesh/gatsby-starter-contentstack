@@ -1,3 +1,5 @@
+import 'react-responsive-carousel/lib/styles/carousel.css'
+
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
@@ -5,22 +7,23 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-danger */
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { graphql } from 'gatsby';
-import Layout from '../components/layout';
-import 'react-responsive-carousel/lib/styles/carousel.css';
+import React from 'react'
 
-const { Carousel } = require('react-responsive-carousel');
+import { graphql } from 'gatsby'
+
+import Layout from '../components/layout'
+
+const { Carousel } = require('react-responsive-carousel')
 
 export default function Blogpost({ data }) {
-  const result = data.contentstackBlogPosts;
+  const result = data.contentstackBlogPosts
 
   function dateSetter(params) {
-    const date = new Date(params);
-    const yy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
-    const mm = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
-    const dd = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
-    return `${mm}-${dd}-${yy}`;
+    const date = new Date(params)
+    const yy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date)
+    const mm = new Intl.DateTimeFormat('en', { month: 'short' }).format(date)
+    const dd = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date)
+    return `${mm}-${dd}-${yy}`
   }
 
   function createContent(text, idx) {
@@ -30,7 +33,7 @@ export default function Blogpost({ data }) {
         dangerouslySetInnerHTML={{ __html: text }}
         className="blogPostContent"
       />
-    );
+    )
   }
   function createCarousel(images, id) {
     return (
@@ -48,7 +51,7 @@ export default function Blogpost({ data }) {
           ))}
         </Carousel>
       </div>
-    );
+    )
   }
   function createQuotes(quote, id) {
     return (
@@ -59,7 +62,7 @@ export default function Blogpost({ data }) {
           dangerouslySetInnerHTML={{ __html: quote }}
         />
       </div>
-    );
+    )
   }
   function createSocialNetwork(code, id) {
     return (
@@ -71,8 +74,9 @@ export default function Blogpost({ data }) {
           dangerouslySetInnerHTML={{ __html: code }}
         />
       </div>
-    );
+    )
   }
+  console.log('blog data', result)
   return (
     <Layout
       header={data.allContentstackHeader.nodes}
@@ -95,34 +99,38 @@ export default function Blogpost({ data }) {
                     {dateSetter(result.created_at)}
                   </span>
                   ,
-                  <span className="blogpost-author">{result.author[0].title}</span>
+                  <span className="blogpost-author">
+                    {result.author[0].title}
+                  </span>
                 </div>
               </div>
             </li>
           </ul>
         </div>
         <div className="blogContent">
-          {result.blog_body.map((post) => Object.entries(post).map((data, idx) => {
-            if (data[0] === 'rich_text_editor' && data[1] !== null) {
-              return createContent(data[1].rich_text, idx);
-            }
-            if (data[0] === 'image_carousel' && data[1] !== null) {
-              return createCarousel(data[1].image, idx);
-            }
-            if (data[0] === 'quotes' && data[1] !== null) {
-              return createQuotes(data[1].quote, idx);
-            }
-            if (data[0] === 'social_network' && data[1] !== null) {
-              return createSocialNetwork(data[1].embedded_code, idx);
-            }
-          }))}
+          {result.blog_body.map((post) =>
+            Object.entries(post).map((data, idx) => {
+              if (data[0] === 'rich_text_editor' && data[1] !== null) {
+                return createContent(data[1].rich_text, idx)
+              }
+              if (data[0] === 'image_carousel' && data[1] !== null) {
+                return createCarousel(data[1].image, idx)
+              }
+              if (data[0] === 'quotes' && data[1] !== null) {
+                return createQuotes(data[1].quote, idx)
+              }
+              if (data[0] === 'social_network' && data[1] !== null) {
+                return createSocialNetwork(data[1].embedded_code, idx)
+              }
+            })
+          )}
         </div>
       </div>
     </Layout>
-  );
+  )
 }
 export const postQuery = graphql`
-  query($title: String!) {
+  query ($title: String!) {
     contentstackBlogPosts(title: { eq: $title }) {
       url
       title
@@ -155,7 +163,7 @@ export const postQuery = graphql`
           embedded_code
         }
       }
-      created_at(locale: "")
+      created_at
       author {
         title
       }
@@ -192,4 +200,4 @@ export const postQuery = graphql`
       }
     }
   }
-`;
+`
